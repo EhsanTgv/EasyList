@@ -52,15 +52,15 @@ class _ProductCreatePage extends State<ProductCreatePage> {
     );
   }
 
-  _submitForm(){
-              final Map<String, dynamic> product = {
-                "title": _titleValue,
-                "description": _descriptionValue,
-                "price": _priceValue,
-                "image": "assets/food.jpg"
-              };
-              widget.addProduct(product);
-              Navigator.pushReplacementNamed(context, '/products');
+  void _submitForm() {
+    final Map<String, dynamic> product = {
+      "title": _titleValue,
+      "description": _descriptionValue,
+      "price": _priceValue,
+      "image": "assets/food.jpg"
+    };
+    widget.addProduct(product);
+    Navigator.pushReplacementNamed(context, '/products');
   }
 
   @override
@@ -72,10 +72,6 @@ class _ProductCreatePage extends State<ProductCreatePage> {
           _buildTitleTextField(),
           _buildDescriptionTextField(),
           _buildPriceTextField(),
-          Switch(
-            value: true,
-            onChanged: (bool value) {},
-          ),
           SizedBox(
             height: 10.0,
           ),
@@ -83,7 +79,7 @@ class _ProductCreatePage extends State<ProductCreatePage> {
             color: Theme.of(context).accentColor,
             textColor: Colors.white,
             child: Text("Save"),
-            onPressed: _submitForm(),
+            onPressed: _submitForm,
           ),
         ],
       ),
