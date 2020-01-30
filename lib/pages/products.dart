@@ -7,10 +7,8 @@ class ProductsPage extends StatelessWidget {
 
   ProductsPage(this.products);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
+  Widget _buildSideDrawer(BuildContext context){
+    return Drawer(
         child: Column(
           children: <Widget>[
             AppBar(
@@ -26,7 +24,13 @@ class ProductsPage extends StatelessWidget {
             )
           ],
         ),
-      ),
+      );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: _buildSideDrawer(context),
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
