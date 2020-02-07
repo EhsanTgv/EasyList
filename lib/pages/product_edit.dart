@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/models/product.dart';
+import 'package:flutter_app/scoped-models/products.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductEditPage extends StatefulWidget {
   final Function addProduct;
@@ -75,6 +77,17 @@ class _ProductEditPage extends State<ProductEditPage> {
     );
   }
 
+  Widget _buildSubmitButton() {
+    return ScopedModelDescendant<ProductsModel>(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+      return RaisedButton(
+        textColor: Colors.white,
+        child: Text("Save"),
+        onPressed: () => _submitForm(model.addProduct, model.updateProduct),
+      );
+    });
+  }
+
   Widget _buildPageContent() {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double targetWidth = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
@@ -96,11 +109,7 @@ class _ProductEditPage extends State<ProductEditPage> {
               SizedBox(
                 height: 10.0,
               ),
-              RaisedButton(
-                textColor: Colors.white,
-                child: Text("Save"),
-                onPressed: _submitForm,
-              ),
+              _buildSubmitButton(),
             ],
           ),
         ),
@@ -108,20 +117,20 @@ class _ProductEditPage extends State<ProductEditPage> {
     );
   }
 
-  void _submitForm() {
+  void _submitForm(Function addProduct, Function updateProduct) {
     if (!_formKey.currentState.validate()) {
       return;
     }
     _formKey.currentState.save();
 
     if (widget.product == null) {
-      widget.addProduct(Product(
+      addProduct(Product(
           title: _formData["title"],
           description: _formData["description"],
           price: _formData["price"],
           image: _formData["image"]));
     } else {
-      widget.updateProduct(
+      updateProduct(
           widget.productIndex,
           Product(
               title: _formData["title"],
