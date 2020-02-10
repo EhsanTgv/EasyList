@@ -14,6 +14,9 @@ class ProductsModel extends Model {
   }
 
   Product get selectedProduct {
+    if (_selectedProductIndex == null) {
+      return null;
+    }
     return _products[_selectedProductIndex];
   }
 
