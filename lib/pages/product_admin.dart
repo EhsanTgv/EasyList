@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/product.dart';
-import 'package:flutter_app/scoped-models/products.dart';
 
 import 'product_edit.dart';
 import 'product_list.dart';
