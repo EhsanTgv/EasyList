@@ -19,17 +19,22 @@ class ConnectedProductsModel extends Model {
           "https://cdn11.bigcommerce.com/s-ham8sjk/images/stencil/1280x1280/products/201/844/unsweetened_chocolate_with_100_cocoa_solids__59124.1551726251__1551731069_104.172.159.225__32794.1551731106.jpg",
       "price": price
     };
-    http.post("https://easylist-flutter-app.firebaseio.com/products.json",
-        body: json.encode(productData));
-    final Product newProduct = Product(
-        title: title,
-        description: description,
-        image: image,
-        price: price,
-        userEmail: _authenticatedUser.email,
-        userId: _authenticatedUser.id);
-    _products.add(newProduct);
-    notifyListeners();
+    http
+        .post("https://easylist-flutter-app.firebaseio.com/products.json",
+            body: json.encode(productData))
+        .then((http.Response response) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      final Product newProduct = Product(
+          id: responseData["name"],
+          title: title,
+          description: description,
+          image: image,
+          price: price,
+          userEmail: _authenticatedUser.email,
+          userId: _authenticatedUser.id);
+      _products.add(newProduct);
+      notifyListeners();
+    });
   }
 }
 
