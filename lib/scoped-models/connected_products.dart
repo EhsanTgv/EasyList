@@ -20,10 +20,11 @@ class ConnectedProductsModel extends Model {
       "price": price
     };
     http
-        .post("https://easylist-flutter-app.firebaseio.com/products.json",
+        .post("https://easylist-germany.firebaseio.com/products.json",
             body: json.encode(productData))
         .then((http.Response response) {
       final Map<String, dynamic> responseData = json.decode(response.body);
+      print(response.body);
       final Product newProduct = Product(
           id: responseData["name"],
           title: title,
