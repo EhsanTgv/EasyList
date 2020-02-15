@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/product.dart';
 import '../models/user.dart';
@@ -10,6 +12,15 @@ class ConnectedProductsModel extends Model {
 
   void addProduct(
       String title, String description, String image, double price) {
+    final Map<String, dynamic> productData = {
+      "title": title,
+      "description": description,
+      "image":
+          "https://cdn11.bigcommerce.com/s-ham8sjk/images/stencil/1280x1280/products/201/844/unsweetened_chocolate_with_100_cocoa_solids__59124.1551726251__1551731069_104.172.159.225__32794.1551731106.jpg",
+      "price": price
+    };
+    http.post("https://easylist-flutter-app.firebaseio.com/products.json",
+        body: json.encode(productData));
     final Product newProduct = Product(
         title: title,
         description: description,
