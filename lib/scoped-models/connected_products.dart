@@ -17,7 +17,9 @@ class ConnectedProductsModel extends Model {
       "description": description,
       "image":
           "https://cdn11.bigcommerce.com/s-ham8sjk/images/stencil/1280x1280/products/201/844/unsweetened_chocolate_with_100_cocoa_solids__59124.1551726251__1551731069_104.172.159.225__32794.1551731106.jpg",
-      "price": price
+      "price": price,
+      "userEmail": _authenticatedUser.email,
+      "userId": _authenticatedUser.id
     };
     http
         .post("https://easylist-germany.firebaseio.com/products.json",
@@ -90,7 +92,21 @@ class ProductsModel extends ConnectedProductsModel {
     http
         .get("https://easylist-germany.firebaseio.com/products.json")
         .then((http.Response response) {
-      print(json.decode(response.body));
+      final List<Product> fetchedProductList = [];
+      final Map<String, dynamic> productListData = json.decode(response.body);
+      productListData.forEach((String productId, dynamic productData) {
+        final Product product = Product(
+            id: productId,
+            title: productData["title"],
+            description: productData["description"],
+            image: productData["image"],
+            price: productData["price"],
+            userEmail: productData["userEmail"],
+            userId: productData["userId"]);
+        fetchedProductList.add(product);
+      });
+      _products = fetchedProductList;
+      notifyListeners();
     });
   }
 

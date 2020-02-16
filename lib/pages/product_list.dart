@@ -6,8 +6,7 @@ import 'product_edit.dart';
 import '../scoped-models/main.dart';
 
 class ProductListPage extends StatelessWidget {
-  Widget _buildEditButton(
-      BuildContext context, int index, MainModel model) {
+  Widget _buildEditButton(BuildContext context, int index, MainModel model) {
     return IconButton(
       icon: Icon(Icons.edit),
       onPressed: () {
@@ -49,7 +48,7 @@ class ProductListPage extends StatelessWidget {
                   ListTile(
                       leading: CircleAvatar(
                         backgroundImage:
-                            AssetImage(model.allProducts[index].image),
+                            NetworkImage(model.allProducts[index].image),
                       ),
                       title: Text(model.allProducts[index].title),
                       subtitle: Text("\$${model.allProducts[index].price}"),
