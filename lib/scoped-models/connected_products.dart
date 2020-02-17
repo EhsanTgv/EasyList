@@ -74,9 +74,29 @@ class ProductsModel extends ConnectedProductsModel {
     return _showFavorites;
   }
 
-  void updateProduct(
+  Future<Null> updateProduct(
       String title, String description, String image, double price) {
+    _isLoading = true;
+    notifyListeners();
+    final Map<String, dynamic> updateData = {
+      "title": title,
+      "description": description,
+      "image":
+          "https://cdn.pixabay.com/photo/2015/10/02/12/00/chocolate-968457_960_720.jpg",
+      "price": price,
+      "userEmail": selectedProduct.userEmail,
+      "userId": selectedProduct.userId
+    };
+    return http
+        .put(
+            "https://easylist-germany.firebaseio.com/products/${selectedProduct.id}.json",
+            body: json.encode(updateData))
+        .then((http.Response response) {
+      _isLoading = false;
+      notifyListeners();
+    });
     final Product updatedProduct = Product(
+        id: selectedProduct.id,
         title: title,
         description: description,
         image: image,
