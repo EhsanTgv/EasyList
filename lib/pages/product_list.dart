@@ -48,13 +48,13 @@ class _ProductListPageState extends State<ProductListPage> {
             return Dismissible(
               key: Key(model.allProducts[index].title),
               onDismissed: (DismissDirection direction) {
-                model.selectProduct(index);
                 if (direction == DismissDirection.endToStart) {
+                  model.selectProduct(index);
                   model.deleteProduct();
                 } else if (direction == DismissDirection.startToEnd) {
-                  print("Swipined start to end");
+                  print('Swiped start to end');
                 } else {
-                  print("Otehr Swiping");
+                  print('Other swiping');
                 }
               },
               background: Container(
@@ -68,9 +68,11 @@ class _ProductListPageState extends State<ProductListPage> {
                             NetworkImage(model.allProducts[index].image),
                       ),
                       title: Text(model.allProducts[index].title),
-                      subtitle: Text("\$${model.allProducts[index].price}"),
-                      trailing: _buildEditButton(context, index, model)),
-                  Divider(),
+                    subtitle:
+                        Text('\$${model.allProducts[index].price.toString()}'),
+                    trailing: _buildEditButton(context, index, model),
+                  ),
+                  Divider()
                 ],
               ),
             );
