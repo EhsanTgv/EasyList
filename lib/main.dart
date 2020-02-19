@@ -6,6 +6,7 @@ import 'pages/product.dart';
 import 'pages/product_admin.dart';
 import 'pages/products.dart';
 import 'scoped-models/main.dart';
+import './models/product.dart';
 
 void main() {
 //  debugPaintSizeEnabled = true;
@@ -47,9 +48,12 @@ class _MyAppState extends State<MyApp> {
           }
           if (pathElements[1] == "product") {
             final String productId = pathElements[2];
-            model.selectProduct(productId);
+            final Product product =
+                model.allProducts.firstWhere((Product product) {
+              return product.id == productId;
+            });
             return MaterialPageRoute<bool>(
-              builder: (BuildContext context) => ProductPage(),
+              builder: (BuildContext context) => ProductPage(product),
             );
           }
           return null;
