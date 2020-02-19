@@ -8,7 +8,7 @@ import '../models/user.dart';
 
 class ConnectedProductsModel extends Model {
   List<Product> _products = [];
-  int _selProductIndex;
+  String _selProductId;
   User _authenticatedUser;
   bool _isLoading = false;
 
@@ -60,14 +60,22 @@ class ProductsModel extends ConnectedProductsModel {
   }
 
   int get selectedProductIndex {
-    return _selProductIndex;
+    _products.indexWhere((Product product) {
+      return product.id == _selProductId;
+    });
+  }
+
+  String get selectedProductId {
+    return _selProductId;
   }
 
   Product get selectedProduct {
     if (selectedProductIndex == null) {
       return null;
     }
-    return _products[selectedProductIndex];
+    return _products.firstWhere((Product product) {
+      return product.id == _selProductId;
+    });
   }
 
   bool get displayFavoritesOnly {
@@ -93,31 +101,30 @@ class ProductsModel extends ConnectedProductsModel {
             body: json.encode(updateData))
         .then((http.Response response) {
       _isLoading = false;
+      final Product updatedProduct = Product(
+          id: selectedProduct.id,
+          title: title,
+          description: description,
+          image: image,
+          price: price,
+          userEmail: selectedProduct.userEmail,
+          userId: selectedProduct.userId);
+      _products[selectedProductIndex] = updatedProduct;
       notifyListeners();
     });
-    final Product updatedProduct = Product(
-        id: selectedProduct.id,
-        title: title,
-        description: description,
-        image: image,
-        price: price,
-        userEmail: selectedProduct.userEmail,
-        userId: selectedProduct.userId);
-    _products[selectedProductIndex] = updatedProduct;
-    notifyListeners();
   }
 
   void deleteProduct() {
     _isLoading = true;
     final deletedProductId = selectedProduct.id;
-    _selProductIndex = null;
+    _products.removeAt(selectedProductIndex);
+    _selProductId = null;
     notifyListeners();
     http
         .delete(
             "https://easylist-germany.firebaseio.com/products/${deletedProductId}.json")
         .then((http.Response response) {
       _isLoading = false;
-      _products.removeAt(selectedProductIndex);
       notifyListeners();
     });
   }
@@ -153,9 +160,10 @@ class ProductsModel extends ConnectedProductsModel {
   }
 
   void toggleProductFavoriteStatus() {
-    final bool isCurrentlyFavorite = _products[selectedProductIndex].isFavorite;
+    final bool isCurrentlyFavorite = selectedProduct.isFavorite;
     final newFavoritesStatus = !isCurrentlyFavorite;
     final Product updatedProduct = Product(
+        id: selectedProduct.id,
         title: selectedProduct.title,
         description: selectedProduct.description,
         price: selectedProduct.price,
@@ -167,8 +175,8 @@ class ProductsModel extends ConnectedProductsModel {
     notifyListeners();
   }
 
-  void selectProduct(int index) {
-    _selProductIndex = index;
+  void selectProduct(String productId) {
+    _selProductId = productId;
     notifyListeners();
   }
 

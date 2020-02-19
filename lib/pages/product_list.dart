@@ -27,7 +27,7 @@ class _ProductListPageState extends State<ProductListPage> {
     return IconButton(
       icon: Icon(Icons.edit),
       onPressed: () {
-        model.selectProduct(index);
+        model.selectProduct(model.allProducts[index].id);
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (BuildContext context) {
@@ -49,7 +49,7 @@ class _ProductListPageState extends State<ProductListPage> {
               key: Key(model.allProducts[index].title),
               onDismissed: (DismissDirection direction) {
                 if (direction == DismissDirection.endToStart) {
-                  model.selectProduct(index);
+                  model.selectProduct(model.allProducts[index].id);
                   model.deleteProduct();
                 } else if (direction == DismissDirection.startToEnd) {
                   print('Swiped start to end');
@@ -63,11 +63,11 @@ class _ProductListPageState extends State<ProductListPage> {
               child: Column(
                 children: <Widget>[
                   ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(model.allProducts[index].image),
-                      ),
-                      title: Text(model.allProducts[index].title),
+                    leading: CircleAvatar(
+                      backgroundImage:
+                          NetworkImage(model.allProducts[index].image),
+                    ),
+                    title: Text(model.allProducts[index].title),
                     subtitle:
                         Text('\$${model.allProducts[index].price.toString()}'),
                     trailing: _buildEditButton(context, index, model),
