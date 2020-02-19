@@ -60,7 +60,7 @@ class ProductsModel extends ConnectedProductsModel {
   }
 
   int get selectedProductIndex {
-    _products.indexWhere((Product product) {
+    return _products.indexWhere((Product product) {
       return product.id == _selProductId;
     });
   }
