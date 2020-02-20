@@ -74,7 +74,7 @@ class ProductsModel extends ConnectedProductsModel {
   }
 
   Product get selectedProduct {
-    if (selectedProductIndex == null) {
+    if (selectedProductId == null) {
       return null;
     }
     return _products.firstWhere((Product product) {

@@ -167,17 +167,18 @@ class _ProductEditPage extends State<ProductEditPage> {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
-        builder: (BuildContext context, Widget child, MainModel model) {
-      final Widget pageContent =
-          _buildPageContent(context, model.selectedProduct);
-      return model.selectedProductIndex == -1
-          ? pageContent
-          : Scaffold(
-              appBar: AppBar(
-                title: Text("Edit Product"),
-              ),
-              body: pageContent,
-            );
-    });
+      builder: (BuildContext context, Widget child, MainModel model) {
+        final Widget pageContent =
+            _buildPageContent(context, model.selectedProduct);
+        return model.selectedProductIndex == -1
+            ? pageContent
+            : Scaffold(
+                appBar: AppBar(
+                  title: Text("Edit Product"),
+                ),
+                body: pageContent,
+              );
+      },
+    );
   }
 }
