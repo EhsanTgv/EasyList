@@ -13,7 +13,7 @@ class ConnectedProductsModel extends Model {
   bool _isLoading = false;
 
   Future<bool> addProduct(
-      String title, String description, String image, double price) {
+      String title, String description, String image, double price) async {
     _isLoading = true;
     notifyListeners();
     final Map<String, dynamic> productData = {
@@ -25,10 +25,11 @@ class ConnectedProductsModel extends Model {
       "userEmail": _authenticatedUser.email,
       "userId": _authenticatedUser.id
     };
-    return http
-        .post("https://easylist-germany.firebaseio.com/products.json",
-            body: json.encode(productData))
-        .then((http.Response response) {
+    try {
+      final http.Response response = await http.post(
+          "https://easylist-germany.firebaseio.com/products.json",
+          body: json.encode(productData));
+
       if (response.statusCode != 200 && response.statusCode != 201) {
         return false;
       }
@@ -45,11 +46,11 @@ class ConnectedProductsModel extends Model {
       _isLoading = false;
       notifyListeners();
       return true;
-    }).catchError((error) {
+    } catch (error) {
       _isLoading = false;
       notifyListeners();
       return false;
-    });
+    }
   }
 }
 
