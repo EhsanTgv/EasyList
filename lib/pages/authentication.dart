@@ -67,7 +67,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     );
   }
 
-  Widget _buildEmailConfirmTextField() {
+  Widget _buildPasswordConfirmTextField() {
     return TextFormField(
       decoration: InputDecoration(
           labelText: 'Confirm Password', filled: true, fillColor: Colors.white),
@@ -133,7 +133,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    _buildEmailConfirmTextField(),
+                    _authenticationMode == AuthenticationMode.Signup
+                        ? _buildPasswordConfirmTextField()
+                        : Container(),
                     _buildAcceptSwitch(),
                     SizedBox(
                       height: 10.0,
@@ -144,9 +146,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       onPressed: () {
                         setState(() {
                           _authenticationMode =
-                            _authenticationMode == AuthenticationMode.Login
-                                ? AuthenticationMode.Signup
-                                : AuthenticationMode.Login;
+                              _authenticationMode == AuthenticationMode.Login
+                                  ? AuthenticationMode.Signup
+                                  : AuthenticationMode.Login;
                         });
                       },
                     ),
