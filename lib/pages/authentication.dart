@@ -4,6 +4,8 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../scoped-models/main.dart';
 
+enum AuthenticationMode { Signup, Login }
+
 class AuthenticationPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -19,6 +21,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordTextController = TextEditingController();
+  AuthenticationMode _authenticationMode = AuthenticationMode.Login;
 
   DecorationImage _buildBackgroundImage() {
     return DecorationImage(
@@ -135,7 +138,18 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    
+                    FlatButton(
+                      child: Text(
+                          "Switch to ${_authenticationMode == AuthenticationMode.Login ? "SignUp" : "Login"}"),
+                      onPressed: () {
+                        setState(() {
+                          _authenticationMode =
+                            _authenticationMode == AuthenticationMode.Login
+                                ? AuthenticationMode.Signup
+                                : AuthenticationMode.Login;
+                        });
+                      },
+                    ),
                     SizedBox(
                       height: 10.0,
                     ),
