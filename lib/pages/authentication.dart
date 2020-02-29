@@ -95,12 +95,20 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     );
   }
 
-  void _submitForm(Function login) {
+  void _submitForm(Function login, Function signup) async {
     if (!_formKey.currentState.validate() || !_formData['acceptTerms']) {
       return;
     }
     _formKey.currentState.save();
-    login(_formData["email"], _formData["password"]);
+    if (_authenticationMode == AuthenticationMode.Login) {
+      login(_formData["email"], _formData["password"]);
+    } else {
+      final Map<String, dynamic> successInformation =
+          await signup(_formData["email"], _formData["password"]);
+      if (successInformation["success"]) {
+        Navigator.pushReplacementNamed(context, '/products');
+      }
+    }
     Navigator.pushReplacementNamed(context, '/products');
   }
 
@@ -161,7 +169,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         return RaisedButton(
                           textColor: Colors.white,
                           child: Text('LOGIN'),
-                          onPressed: () => _submitForm(model.login),
+                          onPressed: () =>
+                              _submitForm(model.login, model.signup),
                         );
                       },
                     ),
