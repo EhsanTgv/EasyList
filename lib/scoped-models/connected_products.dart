@@ -215,6 +215,20 @@ class UserModel extends ConnectedProductsModel {
     _authenticatedUser =
         User(id: "w058vP6VEPn", email: email, password: password);
   }
+
+  Future<Map<String, dynamic>> signup(String email, String password) async {
+    final Map<String, dynamic> authenticationData = {
+      "email": email,
+      "password": password,
+      "returnSecureToken": true
+    };
+    final http.Response response = await http.post(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCvqsZDTvO2ijYeQk_Q-yGiNTwPrDYB_lU",
+      body: json.encode(authenticationData),
+    );
+    print(response);
+    return {"success": true, "message": "Authentication succeeded!"};
+  }
 }
 
 class UtilityModel extends ConnectedProductsModel {
