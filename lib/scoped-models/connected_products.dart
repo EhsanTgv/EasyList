@@ -237,7 +237,7 @@ class UserModel extends ConnectedProductsModel {
     } else if (responseData["error"]["message"] == "EMAIL_EXISTS") {
       message = "This email already exists.";
     }
-    return {"success": hasError, "message": message};
+    return {"success": !hasError, "message": message};
   }
 }
 

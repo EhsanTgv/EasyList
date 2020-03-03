@@ -113,7 +113,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text("An Error Occurred!"),
-                content: successInformation["message"],
+                content: Text(successInformation["message"]),
                 actions: <Widget>[
                   FlatButton(
                     child: Text("Okay"),
