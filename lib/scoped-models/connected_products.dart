@@ -225,8 +225,9 @@ class UserModel extends ConnectedProductsModel {
     final http.Response response = await http.post(
       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCvqsZDTvO2ijYeQk_Q-yGiNTwPrDYB_lU",
       body: json.encode(authenticationData),
+      headers: {'Content-Type': 'application/json'},
     );
-    print(response);
+    print(json.decode(response.body));
     return {"success": true, "message": "Authentication succeeded!"};
   }
 }
