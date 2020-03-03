@@ -107,9 +107,25 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           await signup(_formData["email"], _formData["password"]);
       if (successInformation["success"]) {
         Navigator.pushReplacementNamed(context, '/products');
+      } else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("An Error Occurred!"),
+                content: successInformation["message"],
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Okay"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
       }
     }
-    Navigator.pushReplacementNamed(context, '/products');
   }
 
   @override
