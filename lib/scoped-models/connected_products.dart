@@ -212,6 +212,8 @@ class ProductsModel extends ConnectedProductsModel {
 
 class UserModel extends ConnectedProductsModel {
   Future<Map<String, dynamic>> login(String email, String password) async {
+     _isLoading = true;
+    notifyListeners();
     final Map<String, dynamic> authenticationData = {
       "email": email,
       "password": password,
