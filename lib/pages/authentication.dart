@@ -94,19 +94,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     );
   }
 
-  void _submitForm(Function login, Function signup) async {
+  void _submitForm(Function authenticate) async {
     if (!_formKey.currentState.validate() || !_formData['acceptTerms']) {
       return;
     }
     _formKey.currentState.save();
-    Map<String, dynamic> successInformation;
-    if (_authenticationMode == AuthenticationMode.Login) {
-      successInformation =
-          await login(_formData["email"], _formData["password"]);
-    } else {
-      successInformation =
-          await signup(_formData["email"], _formData["password"]);
-    }
+    Map<String, dynamic> successInformation = await authenticate(
+        _formData["email"], _formData["password"], _authenticationMode);
+
     if (successInformation["success"]) {
       Navigator.pushReplacementNamed(context, '/products');
     } else {
@@ -189,7 +184,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 textColor: Colors.white,
                                 child: Text('LOGIN'),
                                 onPressed: () =>
-                                    _submitForm(model.login, model.signup),
+                                    _submitForm(model.authenticate),
                               );
                       },
                     ),
