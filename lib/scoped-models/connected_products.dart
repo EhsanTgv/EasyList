@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/product.dart';
 import '../models/user.dart';
+import '../models/authentication.dart';
 
 class ConnectedProductsModel extends Model {
   List<Product> _products = [];
@@ -211,9 +212,11 @@ class ProductsModel extends ConnectedProductsModel {
 }
 
 class UserModel extends ConnectedProductsModel {
-  Future<Map<String, dynamic>> login(String email, String password) async {
-     _isLoading = true;
+  Future<Map<String, dynamic>> login(String email, String password,
+      [AuthenticationMode mode = AuthenticationMode.Login]) async {
+    _isLoading = true;
     notifyListeners();
+
     final Map<String, dynamic> authenticationData = {
       "email": email,
       "password": password,
