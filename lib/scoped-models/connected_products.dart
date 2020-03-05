@@ -212,7 +212,7 @@ class ProductsModel extends ConnectedProductsModel {
 }
 
 class UserModel extends ConnectedProductsModel {
-  Future<Map<String, dynamic>> login(String email, String password,
+  Future<Map<String, dynamic>> authenticate(String email, String password,
       [AuthenticationMode mode = AuthenticationMode.Login]) async {
     _isLoading = true;
     notifyListeners();
@@ -222,10 +222,19 @@ class UserModel extends ConnectedProductsModel {
       "password": password,
       "returnSecureToken": true
     };
-    final http.Response response = await http.post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCvqsZDTvO2ijYeQk_Q-yGiNTwPrDYB_lU",
-        body: jsonEncode(authenticationData),
-        headers: {'Content-Type': 'application/json'});
+    http.Response response;
+    if (mode == AuthenticationMode.Login) {
+      response = await http.post(
+          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCvqsZDTvO2ijYeQk_Q-yGiNTwPrDYB_lU",
+          body: jsonEncode(authenticationData),
+          headers: {'Content-Type': 'application/json'});
+    } else {
+      response = await http.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCvqsZDTvO2ijYeQk_Q-yGiNTwPrDYB_lU",
+        body: json.encode(authenticationData),
+        headers: {'Content-Type': 'application/json'},
+      );
+    }
 
     final Map<String, dynamic> responseData = json.decode(response.body);
     bool hasError = true;
