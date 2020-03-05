@@ -247,6 +247,8 @@ class UserModel extends ConnectedProductsModel {
       message = 'This email was not found.';
     } else if (responseData['error']['message'] == 'INVALID_PASSWORD') {
       message = 'The password is invalid.';
+    } else if (responseData["error"]["message"] == "EMAIL_EXISTS") {
+      message = "This email already exists.";
     }
     _isLoading = false;
     notifyListeners();
